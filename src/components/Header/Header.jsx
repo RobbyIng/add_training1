@@ -1,10 +1,11 @@
+import './header.css'
 function Header({count}) {
     return (
         <>
-        <header>Header</header>
+        <header className="wrapper">Header</header>
         <hr />
         {count}
-        <hr />
+        <hr /> 
         </>
     )
 }
