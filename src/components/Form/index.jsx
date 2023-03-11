@@ -4,7 +4,6 @@ export const Form = ({addToList}) => {
 
 const [value, setValue] = useState('')
 
-
 const handleSubmit = (event) =>{
     event.preventDefault()
     addToList(value)
@@ -12,12 +11,16 @@ const handleSubmit = (event) =>{
 }
 
     return (
-        <form onSubmit={(event) => handleSubmit(event)} className="d-flex flex-column align-item-center mt-3">
-            <div className="mb-3">
+        <form 
+            onSubmit={(event) => handleSubmit(event)} 
+            className="d-flex justify-content-center align-items-center mt-3"
+        >
+            <div className="mx-3">
                 <input 
-                required
                 placeholder="Задача"
                 value={value} 
+                required
+                name='onetodo'
                 onChange={(event) => setValue(event.target.value)} 
                 type="text" 
                 className="form-control"/>
