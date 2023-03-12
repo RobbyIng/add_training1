@@ -1,11 +1,12 @@
 // import logo from './logo.svg';
 import './App.css';
-import { Footer } from './components/Footer/Footer';
-import { Header } from './components/Header/Header';
+import { MemoFooter } from './components/Footer/Footer';
+import { MemoHeader } from './components/Header/Header';
 import { Main } from './components/Main';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { LS_TOKEN } from './utils/constant';
+import { expensiveFunc } from './utils/expensive';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -19,14 +20,20 @@ function App() {
     localStorage.setItem(LS_TOKEN, JSON.stringify(todos))
   },[todos])
 
-  const addToList = (value) => {
+  const addToList = useCallback((value) => {
     const newTodo = {
       id: uuidv4(),
       title: value,
       status: false
     }
     setTodos((prev)=>[newTodo, ...prev])
-    }
+    }, [])
+
+  const expensiveValue = useMemo(()=>{
+    return(expensiveFunc(todos.length)
+    )
+  }, [todos.length])
+
   const deleteList = () => {
     setTodos([])
   }
@@ -34,20 +41,33 @@ function App() {
   setTodos((prev) => prev.filter((todo) => todo.id !== id))
   }
 
+  const updateStatus = (id) => {
+    setTodos((prev) => prev.map(todo => { 
+      if (todo.id === id) return{
+        ...todo,
+        status: !todo.status
+      }
+    return todo
+    }))
+  }
 
     return (
       <div className="App">
 
-        <Header count = {count} addToList={addToList}/>
+        <MemoHeader count = {count} addToList={addToList}/>
         
         <Main 
           setCount={setCount} 
           todos={todos} 
           deleteList = {deleteList}
           deleteOneTodo = {deleteOneTodo}
+          updateStatus = {updateStatus}
         />
 
-        <Footer />
+        <hr/>
+        {expensiveValue}
+        <hr/>
+        <MemoFooter />
 
         
       </div>

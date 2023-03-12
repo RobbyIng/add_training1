@@ -25,7 +25,7 @@ const handleSubmit = (event) =>{
                 type="text" 
                 className="form-control"/>
             </div>
-            <button type="submit" className="btn btn-primary">Submit</button>
+            <button type="submit" className="btn btn-success">Добавить</button>
         </form>
     )
 }
